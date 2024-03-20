@@ -1,0 +1,67 @@
+/* Basics */
+
+:root {
+
+    /* Typography */
+    --fontFamBase: Arial, sans-serif;
+
+    /* Colors */
+    --colorText: darkslategray;
+    --colorStickie: antiquewhite;
+    --colorTranspLight: rgba(0,0,0,0.1);
+}
+* {
+    box-sizing: border-box;
+    color: var(--colorText);
+}
+html {
+    font-size: 100%;
+}
+body {
+    font-family: var(--fontFamBase);
+    font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Headers and Footers */
+
+body header,
+body footer {
+    padding: 1em;
+}
+header :first-child,
+footer :first-child {
+    margin-top: 0;
+}
+header :last-child,
+footer :last-child {
+    margin-bottom: 0;
+}
+
+/* Boar layout */
+
+main {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12em, 1fr));
+    gap: 1em;
+    padding: 0 1em;
+}
+main :first-child {
+    margin-top: 0;
+}
+main :last-child {
+    margin-bottom: 0;
+}
+
+/* Stickies */
+
+article p {
+    padding: 1em;
+    border: 0.0625rem solid var(--colorTranspLight);
+    border-radius: 0.25rem;
+    background-color: var(--colorStickie);
+}
