@@ -3,12 +3,85 @@
 :root {
 
     /* Typography */
-    --fontFamBase: Arial, sans-serif;
+    --fontFamBase: Helvetica, Arial, sans-serif;
+
+    /* Flexoki color system by Steph Ango — stephango.com/flexoki */
+    --flBlack: rgb(16, 15, 15);
+    --flBlack: #100F0F;
+    --flPaper: #FFFCF0;
+    --fl950: #1C1B1A;
+    --fl900: #282726;
+    --fl850: #343331;
+    --fl800: #403E3C;
+    --fl700: #575653;
+    --fl600: #6F6E69;
+    --fl500: #878580;
+    --fl300: #B7B5AC;
+    --fl200: #CECDC3;
+    --fl150: #DAD8CE;
+    --fl100: #E6E4D9;
+    --fl50: #F2F0E5;
+    --flRed600: #AF3029;
+    --flRed400: #D14D41;
+    --flOrange600: #BC5215;
+    --flOrange400: #DA702C;
+    --flYellow900: #4D3A0B;
+    --flYellow600: #AD8301;
+    --flYellow400: #D0A215;
+    --flYellow100: #FCEEB8;
+    --flGreen600: #66800B;
+    --flGreen400: #879A39;
+    --flCyan950: #142625;
+    --flCyan600: #24837B;
+    --flCyan400: #3AA99F;
+    --flCyan50: #EBF2E7;
+    --flBlue600: #205EA6;
+    --flBlue400: #4385BE;
+    --flPurple600: #5E409D;
+    --flPurple400: #8B7EC8;
+    --flMagenta600: #A02F6F;
+    --flMagenta400: #CE5D97;
 
     /* Colors */
-    --colorText: darkslategray;
-    --colorStickie: antiquewhite;
-    --colorTranspLight: rgba(0,0,0,0.1);
+    --colorText: var(--flBlack);
+    --colorBG: var(--flPaper);
+    --colorStickieYellow: var(--flYellow100);
+
+    /* Transparencies */
+    --colorTransp1: rgba(16,15,15,0.1);
+    --colorTransp2: rgba(16,15,15,0.2);
+    --colorTransp3: rgba(16,15,15,0.3);
+    --colorTransp4: rgba(16,15,15,0.4);
+    --colorTransp5: rgba(16,15,15,0.5);
+    --colorTransp6: rgba(16,15,15,0.6);
+    --colorTransp7: rgba(16,15,15,0.7);
+    --colorTransp8: rgba(16,15,15,0.8);
+    --colorTransp9: rgba(16,15,15,0.9);
+
+    /* Spacing */
+    --s1: 0.0625rem;
+    --s2: 0.125rem;
+    --s4: 0.25rem;
+    --s8: 0.5rem;
+    --s16: 1rem;
+    --s32: 2rem;
+    --s64: 4rem;
+    --s128: 8rem;
+    --s256: 16rem;
+    --s512: 32rem;
+
+    /* Border radius */
+    --brXS: 0.0625rem;
+    --brSM: 0.1875rem;
+    --brMD: 0.4375rem;
+    --brLG: 0.9375rem;
+    --brXL: 1.875rem;
+
+    /* Lengths */
+    --stickieWidth: var(--s256);
+    --layoutSpacer: var(--s16);
+    --gridGap: var(--s32);
+
 }
 * {
     box-sizing: border-box;
@@ -20,18 +93,17 @@ html {
 body {
     font-family: var(--fontFamBase);
     font-size: 1em;
+    font-weight: normal;
+    line-height: 1.375;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
+    background: var(--colorBG);
 }
 
-/* Headers and Footers */
+/* Global resets */
 
-body header,
-body footer {
-    padding: 1em;
-}
 header :first-child,
 footer :first-child {
     margin-top: 0;
@@ -41,27 +113,83 @@ footer :last-child {
     margin-bottom: 0;
 }
 
-/* Boar layout */
+/* Headers and Footers */
+
+body > header,
+body > footer {
+    position: absolute;
+    left: 0;
+    padding: var(--layoutSpacer);
+    z-index: 2;
+}
+body > header {
+    top: 0;
+}
+body > footer {
+    bottom: 0;
+}
+
+/* Layout */
 
 main {
+    position: relative;
     flex-grow: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(12em, 1fr));
-    gap: 1em;
-    padding: 0 1em;
+    grid-template-columns: repeat(auto-fit, var(--stickieWidth));
+    justify-content: center;
+    align-content: center;
+    gap: calc(var(--gridGap) / 2);
+    padding: var(--layoutSpacer);
 }
-main :first-child {
-    margin-top: 0;
-}
-main :last-child {
-    margin-bottom: 0;
+main ul, section ul ul, main ul ol, main ol, main ol ol, main ol ul, main li {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 /* Stickies */
 
+article {
+    --padding: calc(var(--s16) + 0.125em);
+    position: relative;
+}
 article p {
-    padding: 1em;
-    border: 0.0625rem solid var(--colorTranspLight);
-    border-radius: 0.25rem;
-    background-color: var(--colorStickie);
+    position: relative;
+    width: var(--stickieWidth);
+    height: var(--stickieWidth);
+    aspect-ratio: 1 / 1;
+    padding: var(--padding) var(--padding) calc(var(--padding) * 2);
+    margin: 0;
+    border: var(--s1) solid var(--colorTransp1);
+    border-radius: var(--brSM);
+    background-color: var(--colorStickieYellow);
+}
+article p:focus {
+    outline: var(--s4) solid var(--flBlue400);
+}
+article p::before {
+    content: "Pour your mind...";
+    position: absolute;
+    top: var(--padding);
+    left: var(--padding);
+    color: var(--colorTransp6);
+    pointer-events: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+article p.has-value::before {
+    display: none;
+}
+article .counter {
+    position: absolute;
+    bottom: calc(var(--padding) - 0.0625em);
+    left: var(--padding);
+    color: var(--colorTransp4);
+    pointer-events: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
