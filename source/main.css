@@ -1,12 +1,17 @@
+/* Fonts */
+
+@font-face {
+    font-family: "Lexend";
+    src: url("../assets/fonts/lexend-var.woff2") format("woff2-variations");
+    font-weight: 1 999;
+}
+
 /* Basics */
 
 :root {
-
     /* Typography */
-    --fontFamBase: Helvetica, Arial, sans-serif;
-
+    --fontFamBase: "Lexend", Helvetica, Arial, sans-serif;
     /* Flexoki color system by Steph Ango — stephango.com/flexoki */
-    --flBlack: rgb(16, 15, 15);
     --flBlack: #100F0F;
     --flPaper: #FFFCF0;
     --fl950: #1C1B1A;
@@ -41,23 +46,21 @@
     --flPurple400: #8B7EC8;
     --flMagenta600: #A02F6F;
     --flMagenta400: #CE5D97;
-
     /* Colors */
     --colorText: var(--flBlack);
+    --colorTextLight: var(--fl600);
     --colorBG: var(--flPaper);
     --colorStickieYellow: var(--flYellow100);
-
     /* Transparencies */
-    --colorTransp1: rgba(16,15,15,0.1);
-    --colorTransp2: rgba(16,15,15,0.2);
-    --colorTransp3: rgba(16,15,15,0.3);
-    --colorTransp4: rgba(16,15,15,0.4);
-    --colorTransp5: rgba(16,15,15,0.5);
-    --colorTransp6: rgba(16,15,15,0.6);
-    --colorTransp7: rgba(16,15,15,0.7);
-    --colorTransp8: rgba(16,15,15,0.8);
-    --colorTransp9: rgba(16,15,15,0.9);
-
+    --colorTransp1: rgba(16, 15, 15, 0.1);
+    --colorTransp2: rgba(16, 15, 15, 0.2);
+    --colorTransp3: rgba(16, 15, 15, 0.3);
+    --colorTransp4: rgba(16, 15, 15, 0.4);
+    --colorTransp5: rgba(16, 15, 15, 0.5);
+    --colorTransp6: rgba(16, 15, 15, 0.6);
+    --colorTransp7: rgba(16, 15, 15, 0.7);
+    --colorTransp8: rgba(16, 15, 15, 0.8);
+    --colorTransp9: rgba(16, 15, 15, 0.9);
     /* Spacing */
     --s1: 0.0625rem;
     --s2: 0.125rem;
@@ -69,34 +72,36 @@
     --s128: 8rem;
     --s256: 16rem;
     --s512: 32rem;
-
     /* Border radius */
     --brXS: 0.0625rem;
     --brSM: 0.1875rem;
     --brMD: 0.4375rem;
     --brLG: 0.9375rem;
     --brXL: 1.875rem;
-
     /* Lengths */
     --stickieWidth: var(--s256);
     --layoutSpacer: var(--s16);
     --gridGap: var(--s32);
-
 }
+
 * {
     box-sizing: border-box;
     color: var(--colorText);
 }
+
 html {
     font-size: 100%;
 }
+
 body {
     font-family: var(--fontFamBase);
     font-size: 1em;
-    font-weight: normal;
+    font-weight: 350;
     line-height: 1.375;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     min-height: 100vh;
     margin: 0;
     background: var(--colorBG);
@@ -108,43 +113,164 @@ header :first-child,
 footer :first-child {
     margin-top: 0;
 }
+
 header :last-child,
 footer :last-child {
     margin-bottom: 0;
 }
 
+/* SVG shapes */
+
+svg[id^="shape"] .fill {
+    fill: currentColor;
+}
+
+/* Typography */
+
+h1 {
+    font-weight: 500;
+}
+
+a:hover {
+    opacity: 0.5;
+}
+
+a:focus {
+    outline: var(--s4) solid var(--flBlue400);
+}
+
 /* Headers and Footers */
 
-body > header,
-body > footer {
+body>header,
+body>footer {
     position: absolute;
     left: 0;
     padding: var(--layoutSpacer);
-    z-index: 2;
+    z-index: 3;
 }
-body > header {
+
+body>header {
     top: 0;
 }
-body > footer {
+
+body>footer {
     bottom: 0;
+
+}
+
+footer * {
+    color: var(--colorTextLight);
 }
 
 /* Layout */
 
 main {
-    position: relative;
-    flex-grow: 1;
     display: grid;
     grid-template-columns: repeat(auto-fit, var(--stickieWidth));
-    justify-content: center;
-    align-content: center;
-    gap: calc(var(--gridGap) / 2);
-    padding: var(--layoutSpacer);
+    justify-content: start;
+    justify-items: start;
+    align-content: start;
+    align-items: start;
+    gap: var(--gridGap);
+    cursor: auto !important;
 }
-main ul, section ul ul, main ul ol, main ol, main ol ol, main ol ul, main li {
+
+main ul,
+section ul ul,
+main ul ol,
+main ol,
+main ol ol,
+main ol ul,
+main li {
     list-style-type: none;
     padding: 0;
     margin: 0;
+}
+
+main section ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, var(--stickieWidth));
+    justify-content: center;
+    justify-items: start;
+    align-content: center;
+    align-items: start;
+    gap: var(--gridGap);
+}
+
+/* Directional buttons */
+
+nav {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--stickieWidth);
+    height: var(--stickieWidth);
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    pointer-events: none;
+    opacity: 1;
+}
+
+nav button {
+    position: absolute;
+    font-size: 1.5em;
+    display: block;
+    width: 2em;
+    height: 2em;
+    padding: 0;
+    border: none;
+    border-radius: var(--brLG);
+    background: none;
+    pointer-events: initial;
+}
+
+nav button:not(.selection) {
+    opacity: 0.1;
+}
+
+nav button:hover,
+nav button:focus {
+    color: var(--colorBG);
+    background: var(--colorText);
+    fill: var(--colorBG);
+    outline: none;
+    opacity: 1;
+}
+
+nav .east {
+    top: 50%;
+    right: 0;
+    transform: translate(80%, -50%);
+}
+
+nav .south {
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 80%);
+}
+
+nav .south svg {
+    transform: rotate(90deg);
+}
+
+nav .west {
+    top: 50%;
+    left: 0;
+    transform: translate(-80%, -50%);
+}
+
+nav .west svg {
+    transform: rotate(180deg);
+}
+
+nav .north {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -80%);
+}
+
+nav .north svg {
+    transform: rotate(270deg);
 }
 
 /* Stickies */
@@ -153,6 +279,7 @@ article {
     --padding: calc(var(--s16) + 0.125em);
     position: relative;
 }
+
 article p {
     position: relative;
     width: var(--stickieWidth);
@@ -161,35 +288,39 @@ article p {
     padding: var(--padding) var(--padding) calc(var(--padding) * 2);
     margin: 0;
     border: var(--s1) solid var(--colorTransp1);
-    border-radius: var(--brSM);
+    border-radius: var(--brMD);
     background-color: var(--colorStickieYellow);
 }
+
 article p:focus {
     outline: var(--s4) solid var(--flBlue400);
 }
+
 article p::before {
     content: "Pour your mind...";
     position: absolute;
     top: var(--padding);
     left: var(--padding);
-    color: var(--colorTransp6);
+    color: var(--colorTransp4);
     pointer-events: none;
     -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
+
 article p.has-value::before {
     display: none;
 }
+
 article .counter {
     position: absolute;
-    bottom: calc(var(--padding) - 0.0625em);
+    bottom: var(--padding);
     left: var(--padding);
     color: var(--colorTransp4);
     pointer-events: none;
     -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

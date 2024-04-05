@@ -1,29 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New boar.page</title>
     <link rel="stylesheet" href="source/main.css">
+    <script defer src="source/panzoom.js"></script>
     <script defer src="source/main.js"></script>
 </head>
+
 <body>
 
-<header>
-    <h1>boar.page</h1>
-</header>
+    <svg style="display: none">
+        <defs>
+            <symbol id="shapeTriangle" viewBox="0 0 24 24">
+                <polygon class="fill" points="6,2 22,12 6,22" />
+            </symbol>
+        </defs>
+    </svg>
 
-<main>
-    <section>
-        <article>
-            <p contenteditable="true"></p>
-        </article>
-    </section>
-</main>
+    <header>
+        <h1>boar.page</h1>
+    </header>
 
-<footer>
-    <small>Built by <a href="https://pmcf.xyz/">Pedro MC Fernandes</a>. Licensed under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3.0</a>.</small>
-</footer>
+    <main>
+        <section>
+            <article class="selection">
+                <p contenteditable="true" tabindex="0"></p>
+            </article>
+        </section>
+    </main>
+
+    <nav>
+        <button class="east selection">
+            <svg width="16" height="16">
+                <title>Arrow pointing right</title>
+                <use href="#shapeTriangle"></use>
+            </svg>
+        </button>
+        <button class="south">
+            <svg width="16" height="16">
+                <title>Arrow pointing down</title>
+                <use href="#shapeTriangle"></use>
+            </svg>
+        </button>
+        <button class="west">
+            <svg width="16" height="16">
+                <title>Arrow pointing left</title>
+                <use href="#shapeTriangle"></use>
+            </svg>
+        </button>
+        <button class="north">
+            <svg width="16" height="16">
+                <title>Arrow pointing up</title>
+                <use href="#shapeTriangle"></use>
+            </svg>
+        </button>
+    </nav>
+
+    <footer>
+        <small>Built by <a href="https://pmcf.xyz/">Pedro MC Fernandes</a>. Licensed under <a
+                href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3.0</a>.</small>
+    </footer>
 
 </body>
+
 </html>
