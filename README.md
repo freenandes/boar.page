@@ -1,3 +1,3 @@
 # boar.page
 
-Fast but simple and constrained whiteboard app. 
+Fast but simple and focused whiteboard app.
