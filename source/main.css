@@ -79,9 +79,9 @@
     --brLG: 0.9375rem;
     --brXL: 1.875rem;
     /* Lengths */
-    --stickieWidth: var(--s256);
-    --layoutSpacer: var(--s16);
+    --stickieLength: var(--s256);
     --gridGap: var(--s32);
+    --layoutSpacer: var(--s16);
 }
 
 * {
@@ -165,31 +165,29 @@ footer * {
 /* Layout */
 
 main {
+    --gridExtension: calc(var(--gridGap) + var(--stickieLength));
     display: grid;
-    grid-template-columns: repeat(auto-fit, var(--stickieWidth));
     justify-content: start;
-    justify-items: start;
     align-content: start;
-    align-items: start;
     gap: var(--gridGap);
     cursor: auto !important;
 }
 
-main ul,
+section ul,
 section ul ul,
-main ul ol,
-main ol,
-main ol ol,
-main ol ul,
-main li {
+section ul ol,
+section ol,
+section ol ol,
+section ol ul,
+section li {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-main section ul {
+section ul {
     display: grid;
-    grid-template-columns: repeat(auto-fit, var(--stickieWidth));
+    grid-template-columns: repeat(auto-fit, var(--stickieLength));
     justify-content: center;
     justify-items: start;
     align-content: center;
@@ -203,8 +201,8 @@ nav {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: var(--stickieWidth);
-    height: var(--stickieWidth);
+    width: var(--stickieLength);
+    height: var(--stickieLength);
     transform: translate(-50%, -50%);
     z-index: 2;
     pointer-events: none;
@@ -240,13 +238,13 @@ nav button:focus {
 nav .east {
     top: 50%;
     right: 0;
-    transform: translate(80%, -50%);
+    transform: translate(calc(100% - var(--gridGap) + 1em), -50%);
 }
 
 nav .south {
     bottom: 0;
     left: 50%;
-    transform: translate(-50%, 80%);
+    transform: translate(-50%, calc(100% - var(--gridGap) + 1em));
 }
 
 nav .south svg {
@@ -256,7 +254,7 @@ nav .south svg {
 nav .west {
     top: 50%;
     left: 0;
-    transform: translate(-80%, -50%);
+    transform: translate(calc(-100% + var(--gridGap) - 1em), -50%);
 }
 
 nav .west svg {
@@ -266,7 +264,7 @@ nav .west svg {
 nav .north {
     top: 0;
     left: 50%;
-    transform: translate(-50%, -80%);
+    transform: translate(-50%, calc(-100% + var(--gridGap) - 1em));
 }
 
 nav .north svg {
@@ -282,8 +280,8 @@ article {
 
 article p {
     position: relative;
-    width: var(--stickieWidth);
-    height: var(--stickieWidth);
+    width: var(--stickieLength);
+    height: var(--stickieLength);
     aspect-ratio: 1 / 1;
     padding: var(--padding) var(--padding) calc(var(--padding) * 2);
     margin: 0;

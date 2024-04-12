@@ -24,10 +24,43 @@
         <h1>boar.page</h1>
     </header>
 
-    <main>
-        <section>
-            <article class="selection">
+    <main
+        style="grid-template-areas:
+            'a1 a2 a3'
+            'b1 b2 b3'
+            'c1 c2 c3'
+        ">
+        <section style="grid-area:a2">
+            <article>
+                <p contenteditable="true" tabindex="0" class="has-value">
+                    North stickie
+                </p>
+            </article>
+        </section>
+        <section style="grid-area:b1">
+            <article>
+                <p contenteditable="true" tabindex="0" class="has-value">
+                    West stickie
+                </p>
+            </article>
+        </section>
+        <section style="grid-area:b2" class="selection">
+            <article>
                 <p contenteditable="true" tabindex="0"></p>
+            </article>
+        </section>
+        <section style="grid-area:b3">
+            <article>
+                <p contenteditable="true" tabindex="0" class="has-value">
+                    East stickie
+                </p>
+            </article>
+        </section>
+        <section style="grid-area:c2">
+            <article>
+                <p contenteditable="true" tabindex="0" class="has-value">
+                    South stickie
+                </p>
             </article>
         </section>
     </main>
@@ -60,8 +93,7 @@
     </nav>
 
     <footer>
-        <small>Built by <a href="https://pmcf.xyz/">Pedro MC Fernandes</a>. Licensed under <a
-                href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3.0</a>.</small>
+        <small>Idea by <a href="https://pmcf.xyz/">Pedro MC Fernandes</a>. Licensed under MIT.</small>
     </footer>
 
 </body>
