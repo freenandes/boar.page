@@ -73,6 +73,7 @@
     --s256: 16rem;
     --s512: 32rem;
     /* Border radius */
+    --brXXS: 0.03125rem;
     --brXS: 0.0625rem;
     --brSM: 0.1875rem;
     --brMD: 0.4375rem;
@@ -285,13 +286,13 @@ article p {
     aspect-ratio: 1 / 1;
     padding: var(--padding) var(--padding) calc(var(--padding) * 2);
     margin: 0;
-    border: var(--s1) solid var(--colorTransp1);
-    border-radius: var(--brMD);
+    border-radius: var(--brXXS);
     background-color: var(--colorStickieYellow);
 }
 
 article p:focus {
-    outline: var(--s4) solid var(--flBlue400);
+    outline: var(--s4) solid var(--flBlack);
+    outline-offset: var(--s4);
 }
 
 article p::before {

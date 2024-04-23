@@ -132,100 +132,40 @@ function togglePlaceholder(editStickie) {
     const isEmpty = editStickie.innerText.trim() === '';
     editStickie.classList.toggle('has-value', !isEmpty);
 }
-// Current max references for grid calculation
-let maxColumn = 'a', maxRow = 1;
-
-// Function to update the main grid layout
-function updateGridLayout(newCol, newRow) {
-    let gridTemplateString = document.querySelector('main').style.gridTemplateAreas;
-    console.log(`Original grid-template-areas: ${gridTemplateString}`);
-
-    // Remove single quotes for manipulation
-    let rows = gridTemplateString.length > 0 ? gridTemplateString.split('\'').filter(x => x.trim().length > 0).map(r => r.trim().split(' ')) : [];
-    console.log(`Initial rows: ${JSON.stringify(rows)}`);
-
-    // Ensure there are enough rows
-    while (rows.length < newRow) {
-        rows.push(new Array(rows[0] ? rows[0].length : 1).fill('.'));
-    }
-
-    // Ensure all rows are the right length
-    let maxCols = Math.max(...rows.map(row => row.length), newCol.charCodeAt(0) - 'a'.charCodeAt(0) + 1);
-    rows.forEach(row => {
-        while (row.length < maxCols) {
-            row.push('.');
-        }
-    });
-
-    // Place the new sticky in the correct column
-    rows[newRow - 1][newCol.charCodeAt(0) - 'a'.charCodeAt(0)] = `${newCol}${newRow}`;
-    console.log(`Modified rows before cleanup: ${JSON.stringify(rows)}`);
-
-    // Clean up unnecessary placeholders and quotation marks
-    rows = rows.map(row => {
-        let cleanedRow = row.map(item => item.replace(/"/g, ''));
-        let lastNonDotIndex = cleanedRow.lastIndexOf(cleanedRow.findLast(r => r !== '.'));
-        return cleanedRow.slice(0, lastNonDotIndex + 1);
-    });
-    console.log(`Modified rows after cleanup: ${JSON.stringify(rows)}`);
-
-    // Reassemble the grid-template-areas string properly
-    gridTemplateString = rows.map(row => `'${row.join(' ')}'`).join(' ');
-    document.querySelector('main').style.gridTemplateAreas = gridTemplateString;
-    console.log(`Updated grid-template-areas: ${gridTemplateString}`);
-}
-
-// Revised addStickie function to apply style to article and label it
+// Add a stickie
 function addStickie(refStickie, direction) {
-    console.log(`Adding stickie in direction: ${direction}`);
-    const newSection = document.createElement('section');
-    const newArticle = document.createElement('article');
-    const newParagraph = document.createElement('p');
-    newParagraph.setAttribute('contenteditable', 'true');
-    newParagraph.setAttribute('tabindex', '0');
+
+    // Build the stickie structure
+    const theSection = document.createElement('section');
+    const theArticle = document.createElement('article');
+    const thePar = document.createElement('p');
+    thePar.setAttribute('contenteditable', 'true');
+    thePar.setAttribute('tabindex', '0');
+
+    // Create a counter for the new stickie
     const charCounter = document.createElement('small');
     charCounter.classList.add('counter');
     charCounter.style.display = 'none';
     charCounter.textContent = '0/240';
-    newArticle.appendChild(newParagraph);
-    newArticle.appendChild(charCounter);
-    newSection.appendChild(newArticle);
 
-    let newCol = maxColumn, newRow = maxRow;
-    if (direction === 'east') {
-        newCol = nextColumn(maxColumn);
-        if (newCol.charCodeAt(0) - 'a'.charCodeAt(0) >= maxColumn.charCodeAt(0) - 'a'.charCodeAt(0)) {
-            maxColumn = newCol; // Only update if the new column is actually to the right
-        }
-    } else if (direction === 'south') {
-        newRow++;
-        if (newRow > maxRow) {
-            maxRow = newRow; // Only update if the new row is actually below
-        }
-    }
+    // Append the paragraph and the counter to the article
+    theArticle.appendChild(thePar);
+    theArticle.appendChild(charCounter);
+    theSection.appendChild(theArticle);
 
-    newArticle.style.gridArea = `${newCol}${newRow}`;
-    newArticle.setAttribute('data-stickie', document.querySelectorAll('article').length.toString());
+    // Check DOM placement for stickie: if after or before
     if (direction === 'east' || direction === 'south') {
-        refStickie.closest('section').after(newSection);
+        refStickie.closest('section').after(theSection);
     } else {
-        refStickie.closest('section').before(newSection);
+        refStickie.closest('section').before(theSection);
     }
+    // Add listeners
+    listenPar(thePar);
 
-    listenPar(newParagraph);
+    // Remove selection, add it to the right stickie, and make it focused
     document.querySelectorAll('article').forEach(el => el.classList.remove('selection'));
-    newArticle.classList.add('selection');
-    newParagraph.focus();
-
-    updateGridLayout(newCol, newRow);
-}
-// Ensure nextColumn always returns a string
-function nextColumn(col) {
-    console.log(`Calculating next column for ${col}`);
-    if (col === 'z') return 'aa';
-    let lastChar = col.slice(-1);
-    let increment = String.fromCharCode(lastChar.charCodeAt(0) + 1);
-    return col.slice(0, -1) + increment;
+    theArticle.classList.add('selection');
+    thePar.focus();
 }
 // Delete a stickie
 function deleteStickie(theArticle) {

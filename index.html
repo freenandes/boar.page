@@ -26,44 +26,71 @@
 
     <main
         style="grid-template-areas:
-            'a1 a2 a3'
-            'b1 b2 b3'
-            'c1 c2 c3'
+            'a1'
         ">
-        <section style="grid-area:a2">
+        <section>
+            <article class="selection" style="grid-area: a1" data-stickie="0">
+                <p contenteditable="true" tabindex="0"></p>
+            </article>
+        </section>
+    </main>
+
+    <!-- <main
+        style="grid-template-areas:
+            'a1 b1';
+        ">
+        <section>
+            <article data-stickie="0" style="grid-area:a1">
+                <p contenteditable="true" tabindex="0"></p>
+            </article>
+        </section>
+        <section>
+            <article data-stickie="1" style="grid-area:b1" class="selection">
+                <p contenteditable="true" tabindex="0"></p>
+            </article>
+        </section>
+    </main> -->
+
+    <!-- <main
+        style="grid-template-areas:
+            'a1 b1 c1'
+            'a2 b2 c2'
+            'a3 b3 c3'
+        ">
+        <section data-stickie="4" style="grid-area:b1" class="selection">
             <article>
                 <p contenteditable="true" tabindex="0" class="has-value">
                     North stickie
                 </p>
             </article>
         </section>
-        <section style="grid-area:b1">
+        <section data-stickie="3" style="grid-area:a2">
             <article>
                 <p contenteditable="true" tabindex="0" class="has-value">
                     West stickie
                 </p>
             </article>
         </section>
-        <section style="grid-area:b2" class="selection">
+        <section data-stickie="0" style="grid-area:b2">
             <article>
                 <p contenteditable="true" tabindex="0"></p>
             </article>
         </section>
-        <section style="grid-area:b3">
+        <section data-stickie="1" style="grid-area:c2">
             <article>
                 <p contenteditable="true" tabindex="0" class="has-value">
                     East stickie
                 </p>
             </article>
         </section>
-        <section style="grid-area:c2">
+        <section data-stickie="2" style="grid-area:b3">
             <article>
                 <p contenteditable="true" tabindex="0" class="has-value">
                     South stickie
                 </p>
             </article>
         </section>
-    </main>
+    </main> -->
 
     <nav>
         <button class="east selection">
@@ -93,7 +120,7 @@
     </nav>
 
     <footer>
-        <small>Idea by <a href="https://pmcf.xyz/">Pedro MC Fernandes</a>. Licensed under MIT.</small>
+        <small><a href="https://pmcf.xyz/">Pedro MC Fernandes</a></small>
     </footer>
 
 </body>
