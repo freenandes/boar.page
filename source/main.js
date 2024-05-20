@@ -137,42 +137,38 @@ let maxColumn = 'a', maxRow = 1;
 
 // Function to update the main grid layout
 function updateGridLayout(newCol, newRow) {
-    let gridTemplateString = document.querySelector('main').style.gridTemplateAreas;
-    console.log(`Original grid-template-areas: ${gridTemplateString}`);
-
-    // Remove single quotes for manipulation
-    let rows = gridTemplateString.length > 0 ? gridTemplateString.split('\'').filter(x => x.trim().length > 0).map(r => r.trim().split(' ')) : [];
-    console.log(`Initial rows: ${JSON.stringify(rows)}`);
-
-    // Ensure there are enough rows
-    while (rows.length < newRow) {
-        rows.push(new Array(rows[0] ? rows[0].length : 1).fill('.'));
+    const main = document.querySelector('main');
+    let currentGrid = main.style.gridTemplateAreas.split('\'').filter(line => line.trim().length > 0).map(line => line.trim().split(' '));
+    
+    // Ensuring the grid has enough rows
+    while (currentGrid.length < newRow) {
+        currentGrid.push(new Array(currentGrid[0].length).fill('.'));
     }
-
-    // Ensure all rows are the right length
-    let maxCols = Math.max(...rows.map(row => row.length), newCol.charCodeAt(0) - 'a'.charCodeAt(0) + 1);
-    rows.forEach(row => {
-        while (row.length < maxCols) {
+    
+    // Calculate the column index for newCol
+    let columnIndex = getColumnIndex(newCol);
+    
+    // Ensuring every row has enough columns
+    currentGrid.forEach(row => {
+        while (row.length <= columnIndex) {
             row.push('.');
         }
     });
-
-    // Place the new sticky in the correct column
-    rows[newRow - 1][newCol.charCodeAt(0) - 'a'.charCodeAt(0)] = `${newCol}${newRow}`;
-    console.log(`Modified rows before cleanup: ${JSON.stringify(rows)}`);
-
-    // Clean up unnecessary placeholders and quotation marks
-    rows = rows.map(row => {
-        let cleanedRow = row.map(item => item.replace(/"/g, ''));
-        let lastNonDotIndex = cleanedRow.lastIndexOf(cleanedRow.findLast(r => r !== '.'));
-        return cleanedRow.slice(0, lastNonDotIndex + 1);
+    
+    // Place the new stickie at the correct position
+    currentGrid[newRow - 1][columnIndex] = `${newCol}${newRow}`;
+    
+    // Remove trailing dots in each row for cleanliness
+    currentGrid = currentGrid.map(row => {
+        while (row[row.length - 1] === '.') {
+            row.pop();
+        }
+        return row;
     });
-    console.log(`Modified rows after cleanup: ${JSON.stringify(rows)}`);
 
-    // Reassemble the grid-template-areas string properly
-    gridTemplateString = rows.map(row => `'${row.join(' ')}'`).join(' ');
-    document.querySelector('main').style.gridTemplateAreas = gridTemplateString;
-    console.log(`Updated grid-template-areas: ${gridTemplateString}`);
+    // Update the grid-template-areas
+    main.style.gridTemplateAreas = `'${currentGrid.map(row => row.join(' ')).join("' '")}'`;
+    console.log("Updated grid-template-areas:", main.style.gridTemplateAreas);
 }
 
 // Revised addStickie function to apply style to article and label it
@@ -219,13 +215,31 @@ function addStickie(refStickie, direction) {
 
     updateGridLayout(newCol, newRow);
 }
-// Ensure nextColumn always returns a string
 function nextColumn(col) {
-    console.log(`Calculating next column for ${col}`);
-    if (col === 'z') return 'aa';
-    let lastChar = col.slice(-1);
-    let increment = String.fromCharCode(lastChar.charCodeAt(0) + 1);
-    return col.slice(0, -1) + increment;
+    if (col === 'z') return 'aa'; // Special case for single 'z'
+    let result = '';
+    let increment = 1;
+    for (let i = col.length - 1; i >= 0; i--) {
+        let code = col.charCodeAt(i) + increment;
+        if (code > 'z'.charCodeAt(0)) {
+            result = 'a' + result;
+            increment = 1; // carry over the increment
+        } else {
+            result = String.fromCharCode(code) + result;
+            increment = 0;
+        }
+    }
+    if (increment > 0) {
+        result = 'a' + result;
+    }
+    return result;
+}
+function getColumnIndex(col) {
+    let index = 0;
+    for (let char of col) {
+        index = index * 26 + (char.charCodeAt(0) - 'a'.charCodeAt(0) + 1);
+    }
+    return index - 1;
 }
 // Delete a stickie
 function deleteStickie(theArticle) {
